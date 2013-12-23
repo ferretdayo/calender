@@ -1,0 +1,106 @@
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>JavaScript</title>
+
+</head>
+<body>
+
+	<script>
+
+	function myCalender(myTodayOffset){
+		//したじゅんび
+		var myDate = new Date();
+		var myWeekTbl = new Array("日","月","火","水","木","金","土");
+		var myMonthTbl = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+		var myToday = myDate.getDate();								//今日の日を退避
+		var myMonth = myDate.getMonth();							//今日の月を取得
+		myDate.setDate(1);											//日付を１日に変えて、
+		myMonth = myMonth + myTodayOffset;							//月をパラメータにしたがって変更
+		myDate.setMonth(myMonth);									//myDateの年月を変更
+		var myYear = myDate.getFullYear();							//西暦取得
+		myMonth = myDate.getMonth();								//月を取得
+		var myWeek = myDate.getDay();								//1日の曜日を取得
+		if(((myYear%4)==0&&(myYear%100)!=0)||(myYear%400)==0){
+			myMonthTbl[1]=29;
+		}
+		myTable = new Array(7*6);
+		
+		for(var i = 0;i<7*6;i++){									//掃除
+			myTable[i]="&nbsp";
+		}
+		for(i=0;i<myMonthTbl[myMonth];i++){							//日付の埋め込み
+			myTable[i+myWeek]=i+1;									//始まりの曜日から日付を入れる。
+		}
+		
+		//=======================================
+		//カレンダーの表示
+		//=======================================
+		document.write("<table border='1'>");
+		document.write("<tr><td align='center' colspan='7' bgcolor='#7fffd4'>");
+		document.write("<strong>",myYear,"年",(myMonth+1),"月</strong>");
+		document.write("</td></tr>");
+		
+		document.write("<tr>");										//曜日の見出しセット
+		for(i=0;i<7;i++){
+			document.write("<td align='center'");
+			if(i==0){
+				document.write("bgcolor='#fa8072'>");				//日曜日の時の色
+			}else{
+				document.write("bgcolor='#ffebcd'>");				//月～土曜日の色
+			}
+			document.write("<strong>",myWeekTbl[i],"</strong>");
+			document.write("</td>");
+		}
+		document.write("</tr>");
+		
+		for(i=0;i<6;i++){
+			document.write("<tr>");
+			for(var j=0;j<7;j++){
+				document.write("<td align='center'");
+				var myDat = myTable[j+(i*7)];						//書き込む内容の取得
+				if(myDat == myToday&&myTodayOffset==0){
+					document.write("bgcolor='#00ffff'>");			//今日のセルの色
+				}else if(j==0){
+					document.write("bgcolor='#ffb6c1'>");			//日曜のセルの色
+				}else{
+					document.write("bgcolor='#ffffe0'>");			//平日のセルの色
+				}
+				document.write("<strong>",myDat,"</strong>");		//日付をセット
+				document.write("</td>");							//列の終わり
+			}
+			document.write("</tr>");								//行の終わり
+		}
+		document.write("</table>");
+	}
+
+	</script>
+	
+	<table><tr><td>
+	
+	<script>
+	
+		myCalender(-1);
+	
+	</script>
+	
+	</td><td>
+	
+	<script>
+	
+		myCalender(0);
+	
+	</script>
+	
+	</td><td>
+	
+	<script>
+	
+		myCalender(1);
+		
+	</script>
+	
+	</td></tr></table>
+
+</body>
+</html>
